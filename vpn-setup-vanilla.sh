@@ -14,17 +14,24 @@
 
 VPN_IP=`curl ipv4.icanhazip.com>/dev/null 2>&1`
 
+#############################
+# Note: configure this before running
+
 VPN_USER="myuser"
 VPN_PASS="mypass"
 
 VPN_LOCAL="192.168.0.150"
 VPN_REMOTE="192.168.0.151-200"
 
+ETH="eth0"
+
+############################
+
 yum -y groupinstall "Development Tools"
 rpm -Uvh http://poptop.sourceforge.net/yum/stable/rhel6/pptp-release-current.noarch.rpm
 yum -y install policycoreutils policycoreutils
 yum -y install ppp pptpd
-yum -y update
+# yum -y update
 
 echo "1" > /proc/sys/net/ipv4/ip_forward
 sed -i 's/net.ipv4.ip_forward = 0/net.ipv4.ip_forward = 1/g' /etc/sysctl.conf
@@ -41,8 +48,8 @@ echo "ms-dns 208.67.222.222" >> /etc/ppp/options.pptpd # OpenDNS Primary
 echo "$VPN_USER pptpd $VPN_PASS *" >> /etc/ppp/chap-secrets
 
 service iptables start
-echo "iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE" >> /etc/rc.local
-iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+echo "iptables -t nat -A POSTROUTING -o $ETH -j MASQUERADE" >> /etc/rc.local
+iptables -t nat -A POSTROUTING -o $ETH -j MASQUERADE
 service iptables save
 service iptables restart
 
