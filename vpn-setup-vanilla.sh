@@ -47,8 +47,13 @@ echo "ms-dns 208.67.222.222" >> /etc/ppp/options.pptpd # OpenDNS Primary
 
 echo "$VPN_USER pptpd $VPN_PASS *" >> /etc/ppp/chap-secrets
 
+echo 0 >/selinux/enforce
+echo "echo 0 >/selinux/enforce" >> /etc/rc.local
+
 service iptables start
+echo "iptables -F" >> /etc/rc.local
 echo "iptables -t nat -A POSTROUTING -o $ETH -j MASQUERADE" >> /etc/rc.local
+iptables -F
 iptables -t nat -A POSTROUTING -o $ETH -j MASQUERADE
 service iptables save
 service iptables restart
