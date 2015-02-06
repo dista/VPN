@@ -1,4 +1,5 @@
 # 6.x
+# mostly based on http://wiki.nikoforge.org/L2TP/IPSec_VPN_Setup_on_Centos_6_%2864-bit%29_for_use_with_Android_ICS_and_iOS_5_Clients
 
 rpm -ivH http://repo.nikoforge.org/redhat/el6/nikoforge-release-latest
 yum -y install http://vesta.informatik.rwth-aachen.de/ftp/pub/Linux/fedora-epel/6/i386/epel-release-6-8.noarch.rpm
